@@ -7,7 +7,13 @@ USER root
 RUN apk update && \
   apk add --update alpine-sdk
 
-RUN brew update
+RUN /bin/bash -c "$(yes '' | curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+RUN echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $HOME/.bash_profile
+
+USER linuxbrew
+
+RUN brew doctor
 
 #RUN curl -sSL https://api.github.com/repos/pinterest/ktlint/releases/latest  | \
 #    grep "browser_download_url.*ktlint\"" | \
