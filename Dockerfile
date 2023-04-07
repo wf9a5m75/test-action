@@ -4,7 +4,7 @@ USER root
 
 
 # Install ktlint
-
+RUN aptapt install curl wget
 RUN curl -sSL https://api.github.com/repos/pinterest/ktlint/releases/latest  | \
     grep "browser_download_url.*ktlint\"" | \
     cut -d : -f 2,3 | \
