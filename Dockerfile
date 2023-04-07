@@ -1,4 +1,4 @@
-FROM amazoncorretto:17.0.3-alpine as corretto-jdk
+FROM amazoncorretto:17-alpine3.17-jdk as corretto-jdk
 
 USER root
 
