@@ -17,9 +17,10 @@ RUN useradd -m -s /bin/bash linuxbrew && \
   echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/linuxbrew/.profile && \
   chown -R linuxbrew:linuxbrew /home/linuxbrew
 
+USER linuxbrew
 RUN brew install ktlint && \
   brew cleanup ktlint
-  
+
 COPY ./entrypoint.sh /
 RUN chmod a+x /entrypoint.sh
 
