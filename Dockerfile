@@ -2,9 +2,9 @@ FROM ubuntu:latest
 
 USER root
 RUN <<EOF
-  apt-get update -q
-  apt-get -yq install curl
-  apt-get clean -y
+  apt update -q
+  apt -yq install curl
+  apt clean -y
   snap install ktlint
 EOF
 
