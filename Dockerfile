@@ -11,14 +11,15 @@ RUN apt-get -y update && \
 #ENV JAVA_HOME=/usr/lib/jvm/default-jvm
 #ENV PATH=$PATH:/usr/lib/jvm/default-jvm/bin
 
-RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 RUN useradd -m -s /bin/bash linuxbrew && \
-  echo 'linuxbrew ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers && \
-  echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/linuxbrew/.profile && \
-  chown -R linuxbrew:linuxbrew /home/linuxbrew
+  echo 'linuxbrew ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers
 
 USER linuxbrew
-RUN . /home/linuxbrew/.profile
+RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+RUN echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/linuxbrew/.profile && \
+  chown -R linuxbrew:linuxbrew /home/linuxbrew && \
+  source /home/linuxbrew/.profile
+
 RUN brew install ktlint && \
   brew cleanup ktlint
 
