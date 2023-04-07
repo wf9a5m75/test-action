@@ -1,9 +1,9 @@
-FROM alpine
+FROM alpine:3.17
 
 USER root
 RUN apk --no-cache update & apk --no-cache upgrade
 
-RUN apk add bash build-base curl file git gzip libc6-compat ncurses ruby ruby-dbm ruby-etc ruby-irb ruby-json sudo printf grep
+RUN apk add bash build-base curl file git gzip libc6-compat ncurses ruby ruby-dbm ruby-etc ruby-irb ruby-json sudo
 
 RUN apacman -S --needed base-devel
 RUN git clone https://aur.archlinux.org/paru.git
