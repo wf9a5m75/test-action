@@ -5,7 +5,7 @@ USER root
 
 # Install ktlint
 RUN apk update && \
-  apk install curl wget
+  apk add curl wget
 
 RUN curl -sSL https://api.github.com/repos/pinterest/ktlint/releases/latest  | \
     grep "browser_download_url.*ktlint\"" | \
