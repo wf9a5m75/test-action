@@ -1,9 +1,9 @@
-FROM alpine:3.11
+FROM alpine
 
 USER root
 RUN apk --no-cache update & apk --no-cache upgrade
 
-RUN apk add bash build-base curl file git gzip libc6-compat ncurses ruby ruby-dbm ruby-etc ruby-irb ruby-json sudo
+RUN apk add bash build-base curl file git gzip libc6-compat ncurses ruby ruby-dbm ruby-etc ruby-irb ruby-json sudo printf grep
 
 RUN adduser -D -s /bin/bash linuxbrew
 RUN echo 'linuxbrew ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers
