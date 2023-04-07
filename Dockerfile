@@ -18,6 +18,7 @@ RUN useradd -m -s /bin/bash linuxbrew && \
   chown -R linuxbrew:linuxbrew /home/linuxbrew
 
 USER linuxbrew
+RUN whoami
 RUN brew install ktlint && \
   brew cleanup ktlint
 
