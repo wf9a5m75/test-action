@@ -1,11 +1,7 @@
-FROM amazoncorretto:17-al2023
+FROM amazoncorretto:17.0.3-alpine as corretto-jdk
 
 USER root
-RUN <<EOF
-  apt update -q
-  apt -yq install git curl
-  apt clean -y
-EOF
+
 
 # Install ktlint
 RUN <<EOF
