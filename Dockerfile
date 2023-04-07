@@ -1,11 +1,11 @@
-FROM amazoncorretto:17
+FROM amazoncorretto:17-alpine-jdk
 
 USER root
 
 
 # Install ktlint
-RUN apt -qy update && \
-  apt install -qy curl wget
+RUN apk -qi update && \
+  apk install -qi curl wget
 
 RUN curl -sSL https://api.github.com/repos/pinterest/ktlint/releases/latest  | \
     grep "browser_download_url.*ktlint\"" | \
