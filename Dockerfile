@@ -1,15 +1,12 @@
-FROM alpine:3.17
+FROM ubuntu:latest
 
 USER root
-RUN apk --no-cache update & apk --no-cache upgrade
+RUN apt update
 
-RUN apk add bash build-base curl file git gzip libc6-compat ncurses ruby ruby-etc ruby-irb ruby-json sudo pacman
+# Install Homebrew
+RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-RUN pacman -S --needed base-devel
-RUN git clone https://aur.archlinux.org/paru.git
-RUN cd paru && \
-  makepkg -si
-RUN paru ktlint
+RUN brew install git ktlint
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
