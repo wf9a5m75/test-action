@@ -1,31 +1,25 @@
-FROM amazoncorretto:17-alpine-jdk
+FROM ubuntu:22.04
 
 USER root
 
-
 # Install ktlint
-RUN apk update && \
-  apk add --update alpine-sdk
+RUN apt-get -y update && \
+  apt-get -y install build-essential curl git sudo
 
-RUN /bin/bash -c "$(yes '' | curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+#RUN apt-get -y install default-jdk
+#ENV LANG=C.UTF-8
+#ENV JAVA_HOME=/usr/lib/jvm/default-jvm
+#ENV PATH=$PATH:/usr/lib/jvm/default-jvm/bin
 
-RUN echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $HOME/.bash_profile
+RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+RUN useradd -m -s /bin/bash linuxbrew && \
+  echo 'linuxbrew ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers && \
+  echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/linuxbrew/.profile && \
+  chown -R linuxbrew:linuxbrew /home/linuxbrew
 
-USER linuxbrew
+RUN brew install ktlint reviewdog
 
-RUN brew doctor
+COPY ./entrypoint.sh /
+RUN chmod a+x /entrypoint.sh
 
-#RUN curl -sSL https://api.github.com/repos/pinterest/ktlint/releases/latest  | \
-#    grep "browser_download_url.*ktlint\"" | \
-#    cut -d : -f 2,3 | \
-#    tr -d \" | \
-#    wget -qi - && \
-#    chmod a+x ktlint && \
-#    mv ktlint /usr/local/bin/
-
-
-
-COPY entrypoint.sh /root/entrypoint.sh
-RUN chmod a+x /root/entrypoint.sh
-
-ENTRYPOINT ["/root/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
