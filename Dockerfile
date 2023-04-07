@@ -18,7 +18,7 @@ USER linuxbrew
 RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 RUN echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/linuxbrew/.profile && \
   chown -R linuxbrew:linuxbrew /home/linuxbrew && \
-  source /home/linuxbrew/.profile
+  . /home/linuxbrew/.profile
 
 RUN brew install ktlint && \
   brew cleanup ktlint
