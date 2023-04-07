@@ -1,27 +1,18 @@
-FROM ubuntu:22.04
+FROM archlinux:latest
 
 USER root
 
+RUN pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com && \
+    pacman-key --init && \
+    pacman-key --lsign-key FBA220DFC880C036 && \
+    pacman --noconfirm -U \
+      'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' \
+      'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst' && \
+    echo '[chaotic-aur]' >> /etc/pacman.conf && \
+    echo 'Include = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf
+
 # Install ktlint
-RUN apt-get -y update && \
-  apt-get -y install build-essential curl git sudo
-
-#RUN apt-get -y install default-jdk
-#ENV LANG=C.UTF-8
-#ENV JAVA_HOME=/usr/lib/jvm/default-jvm
-#ENV PATH=$PATH:/usr/lib/jvm/default-jvm/bin
-
-RUN useradd -m -s /bin/bash linuxbrew && \
-  echo 'linuxbrew ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers
-
-USER linuxbrew
-RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-RUN echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/linuxbrew/.profile && \
-  chown -R linuxbrew:linuxbrew /home/linuxbrew && \
-  . /home/linuxbrew/.profile
-
-RUN brew install ktlint && \
-  brew cleanup ktlint
+RUN pacman -Sy --noconfirm ktlint
 
 COPY ./entrypoint.sh /
 RUN chmod a+x /entrypoint.sh
