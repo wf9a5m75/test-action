@@ -17,7 +17,7 @@ RUN curl -sSL https://api.github.com/repos/pinterest/ktlint/releases/latest  | \
 
 
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod a+x /entrypoint.sh
+COPY entrypoint.sh /root/entrypoint.sh
+RUN chmod a+x /root/entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/root/entrypoint.sh"]
